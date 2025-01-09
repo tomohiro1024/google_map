@@ -10,6 +10,15 @@ class SearchPage extends StatefulWidget {
 
 class _MyWidgetState extends State<SearchPage> {
   @override
+  void initState() async {
+    super.initState();
+
+    final position = await _determinePosition();
+    final latitude = position.latitude;
+    final longitude = position.longitude;
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
