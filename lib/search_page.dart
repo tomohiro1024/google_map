@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -48,4 +49,28 @@ class _MyWidgetState extends State<SearchPage> {
       ),
     );
   }
+}
+
+Future<Position> _determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    return Future.error('位置情報を許可してください！');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      return Future.error('位置情報を許可してください！');
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    return Future.error('位置情報を許可してください！');
+  }
+
+  return await Geolocator.getCurrentPosition();
 }
