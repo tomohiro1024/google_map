@@ -10,12 +10,17 @@ class SearchPage extends StatefulWidget {
 
 class _MyWidgetState extends State<SearchPage> {
   @override
-  void initState() async {
+  void initState() {
     super.initState();
+    searchPosition();
+  }
 
+  Future searchPosition() async {
     final position = await _determinePosition();
     final latitude = position.latitude;
     final longitude = position.longitude;
+
+    print('緯度：$latitude / 経度：$longitude');
   }
 
   @override
