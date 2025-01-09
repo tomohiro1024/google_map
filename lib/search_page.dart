@@ -20,6 +20,7 @@ class _MyWidgetState extends State<SearchPage> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: height * 0.01),
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
