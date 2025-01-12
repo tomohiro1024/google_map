@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_place/google_place.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -9,6 +10,10 @@ class SearchPage extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<SearchPage> {
+  late GooglePlace googlePlace;
+  final apiKey = '';
+
+
   @override
   void initState() {
     super.initState();
@@ -20,7 +25,19 @@ class _MyWidgetState extends State<SearchPage> {
     final latitude = position.latitude;
     final longitude = position.longitude;
 
+    googlePlace = GooglePlace(apiKey);
+
     print('緯度：$latitude / 経度：$longitude');
+
+    var result = await googlePlace.search.getNearBySearch(
+    Location(lat: -33.8670522, lng: 151.1957362), 1500,
+    type: "convenience_store", keyword: "コンビニ");
+
+    if (result != null && mounted) {
+      setState(() {
+        
+      });
+    }
   }
 
   @override
