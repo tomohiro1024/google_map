@@ -13,7 +13,6 @@ class _MyWidgetState extends State<SearchPage> {
   late GooglePlace googlePlace;
   final apiKey = '';
 
-
   @override
   void initState() {
     super.initState();
@@ -29,14 +28,19 @@ class _MyWidgetState extends State<SearchPage> {
 
     print('緯度：$latitude / 経度：$longitude');
 
-    var result = await googlePlace.search.getNearBySearch(
-    Location(lat: -33.8670522, lng: 151.1957362), 1500,
-    type: "convenience_store", keyword: "コンビニ");
+    var response = await googlePlace.search.getNearBySearch(
+      Location(lat: -33.8670522, lng: 151.1957362),
+      1500,
+      type: "convenience_store",
+      keyword: "コンビニ",
+      rankby: RankBy.Distance,
+    );
 
-    if (result != null && mounted) {
-      setState(() {
-        
-      });
+    final result = response?.results;
+    final firstResult = result?.first;
+
+    if (firstResult != null && mounted) {
+      setState(() {});
     }
   }
 
