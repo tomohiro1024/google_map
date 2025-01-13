@@ -31,6 +31,7 @@ class _MyWidgetState extends State<SearchPage> {
     var response = await googlePlace.search.getNearBySearch(
       Location(lat: -33.8670522, lng: 151.1957362),
       1500,
+      language: 'ja',
       type: "convenience_store",
       keyword: "コンビニ",
       rankby: RankBy.Distance,
