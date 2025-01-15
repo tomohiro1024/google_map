@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_map/google_map.dart';
 import 'package:google_place/google_place.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class SearchPage extends StatefulWidget {
 class _MyWidgetState extends State<SearchPage> {
   late GooglePlace googlePlace;
   final apiKey = '';
+  GoogleMap? googleMap;
 
   @override
   void initState() {
@@ -41,7 +43,14 @@ class _MyWidgetState extends State<SearchPage> {
     final firstResult = result?.first;
 
     if (firstResult != null && mounted) {
-      setState(() {});
+      final photoReference = firstResult.photos?.first.photoReference;
+      setState(() {
+        googleMap = GoogleMap(
+          firstResult.name,
+          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey',
+          firstResult.geometry?.location,
+        );
+      });
     }
   }
 
