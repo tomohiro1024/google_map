@@ -58,6 +58,9 @@ class _MyWidgetState extends State<SearchPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    if (googleMap == null) {
+      return CircularProgressIndicator();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('検索')),
@@ -69,8 +72,9 @@ class _MyWidgetState extends State<SearchPage> {
             SizedBox(height: height * 0.01),
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
+              // googleMapのデータがnullの場合は空の画像を表示
               child: Image.network(
-                'https://lh5.googleusercontent.com/p/AF1QipOWtxNfoxL1rAuAsALYMRPJQEYWJ5JEn1sUxpkP=w408-h544-k-no',
+                googleMap!.photoUrl ?? '',
                 width: width,
                 height: 300,
                 fit: BoxFit.cover,
@@ -78,7 +82,7 @@ class _MyWidgetState extends State<SearchPage> {
             ),
             SizedBox(height: height * 0.03),
             Text(
-              '検索名',
+              googleMap!.name ?? '',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
