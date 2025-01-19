@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map/google_map.dart';
 import 'package:google_place/google_place.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -16,6 +17,7 @@ class _MyWidgetState extends State<SearchPage> {
   late GooglePlace googlePlace;
   final apiKey = '';
   GoogleMap? googleMap;
+  Uri? openGoogleMapUrl;
 
   @override
   void initState() {
@@ -96,9 +98,8 @@ class _MyWidgetState extends State<SearchPage> {
             ),
             SizedBox(height: height * 0.03),
             ElevatedButton(
-              onPressed: () {
-                if (Platform.isIOS) {
-                } else {}
+              onPressed: () async{
+                await launchUrl(openGoogleMapUrl!);
               },
               child: Text('ボタン'),
             ),
