@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map/google_map.dart';
@@ -22,13 +24,13 @@ class _MyWidgetState extends State<SearchPage> {
   }
 
   Future searchPosition() async {
-    final position = await _determinePosition();
-    final latitude = position.latitude;
-    final longitude = position.longitude;
+    final currentPosition = await _determinePosition();
+    final currentLatitude = currentPosition.latitude;
+    final currentLongitude = currentPosition.longitude;
 
     googlePlace = GooglePlace(apiKey);
 
-    print('緯度：$latitude / 経度：$longitude');
+    print('緯度：$currentLatitude / 経度：$currentLongitude');
 
     var response = await googlePlace.search.getNearBySearch(
       Location(lat: -33.8670522, lng: 151.1957362),
@@ -59,7 +61,11 @@ class _MyWidgetState extends State<SearchPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     if (googleMap == null) {
-      return CircularProgressIndicator();
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
     }
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +78,7 @@ class _MyWidgetState extends State<SearchPage> {
             SizedBox(height: height * 0.01),
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              // googleMapのデータがnullの場合は空の画像を表示
+              // googleMapのデータがnullの場合は何かしらの画像を表示
               child: Image.network(
                 googleMap!.photoUrl ?? '',
                 width: width,
@@ -90,7 +96,10 @@ class _MyWidgetState extends State<SearchPage> {
             ),
             SizedBox(height: height * 0.03),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (Platform.isIOS) {
+                } else {}
+              },
               child: Text('ボタン'),
             ),
           ],
