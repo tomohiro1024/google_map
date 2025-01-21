@@ -18,6 +18,7 @@ class _MyWidgetState extends State<SearchPage> {
   final apiKey = '';
   GoogleMap? googleMap;
   Uri? openGoogleMapUrl;
+  bool isGoogleSearchResult = false;
 
   @override
   void initState() {
@@ -44,7 +45,26 @@ class _MyWidgetState extends State<SearchPage> {
     );
 
     final result = response?.results;
+
+    setState(() {
+      isGoogleSearchResult = result?.isNotEmpty ?? false;
+    });
+
+    // GoogleMapのデータが取得できなかった場合は処理を終了
+    if (!isGoogleSearchResult) {
+      return;
+    }
+
     final firstResult = result?.first;
+    final goalLocation = firstResult?.geometry?.location;
+    final goalLatitude = goalLocation?.lat;
+    final goalLongitude = goalLocation?.lng;
+
+    // GoogleMapアプリを開くURLを生成
+    String rootUrl =
+        'https://www.google.com/maps/dir/$currentLatitude,$currentLongitude/$goalLatitude,$goalLongitude';
+
+    openGoogleMapUrl = Uri.parse(rootUrl);
 
     if (firstResult != null && mounted) {
       final photoReference = firstResult.photos?.first.photoReference;
@@ -52,7 +72,7 @@ class _MyWidgetState extends State<SearchPage> {
         googleMap = GoogleMap(
           firstResult.name,
           'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey',
-          firstResult.geometry?.location,
+          goalLocation,
         );
       });
     }
@@ -62,6 +82,15 @@ class _MyWidgetState extends State<SearchPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    if (isGoogleSearchResult == false) {
+      // ダイアログ表示に変更
+      return Scaffold(
+        body: Center(
+          child: Text('検索結果が見つかりませんでした。'),
+        ),
+      );
+    }
+
     if (googleMap == null) {
       return Scaffold(
         body: Center(
@@ -98,7 +127,8 @@ class _MyWidgetState extends State<SearchPage> {
             ),
             SizedBox(height: height * 0.03),
             ElevatedButton(
-              onPressed: () async{
+              onPressed: () async {
+                // GoogleMapアプリを開く
                 await launchUrl(openGoogleMapUrl!);
               },
               child: Text('ボタン'),
