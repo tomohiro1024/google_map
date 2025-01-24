@@ -1,16 +1,9 @@
-# google_map
+開発メモ
 
-A new Flutter project.
+・画面メッセージで「ここから一番近い場所は⚪︎⚪︎⚪︎⚪︎です」というメッセージに変更
 
-## Getting Started
+・ボタンをもっと色を変更したり、おしゃれにする
 
-This project is a starting point for a Flutter application.
+・自分の居場所から目的地までの距離を表示する
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+・上記に加えて、徒歩何分か表示したい。
