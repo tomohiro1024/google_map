@@ -36,7 +36,7 @@ class _MyWidgetState extends State<SearchPage> {
     print('緯度：$currentLatitude / 経度：$currentLongitude');
 
     var response = await googlePlace.search.getNearBySearch(
-      Location(lat: -33.8670522, lng: 151.1957362),
+      Location(lat: currentLatitude, lng: currentLongitude),
       1500,
       language: 'ja',
       type: "convenience_store",
@@ -131,7 +131,7 @@ class _MyWidgetState extends State<SearchPage> {
                 // GoogleMapアプリを開く
                 await launchUrl(openGoogleMapUrl!);
               },
-              child: Text('ボタン'),
+              child: Text('GoogleMapアプリで開く'),
             ),
           ],
         ),
