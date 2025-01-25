@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map/google_map.dart';
+import 'package:google_map/secret.dart';
 import 'package:google_place/google_place.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,7 +16,7 @@ class SearchPage extends StatefulWidget {
 
 class _MyWidgetState extends State<SearchPage> {
   late GooglePlace googlePlace;
-  final apiKey = '';
+  final apiKey = Secret.apiKey;
   GoogleMap? googleMap;
   Uri? openGoogleMapUrl;
   bool isGoogleSearchResult = false;
@@ -56,6 +57,7 @@ class _MyWidgetState extends State<SearchPage> {
     }
 
     final firstResult = result?.first;
+    print('firstResult: ${firstResult!}');
     final goalLocation = firstResult?.geometry?.location;
     final goalLatitude = goalLocation?.lat;
     final goalLongitude = goalLocation?.lng;
@@ -68,6 +70,8 @@ class _MyWidgetState extends State<SearchPage> {
 
     if (firstResult != null && mounted) {
       final photoReference = firstResult.photos?.first.photoReference;
+
+      // photoReferenceがnullの場合、空の画像を表示する処理を追加
       setState(() {
         googleMap = GoogleMap(
           firstResult.name,
@@ -109,8 +113,8 @@ class _MyWidgetState extends State<SearchPage> {
             SizedBox(height: height * 0.01),
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              // googleMapのデータがnullの場合は何かしらの画像を表示
               child: Image.network(
+                // googleMapのデータがnullの場合は何かしらの画像を表示
                 googleMap!.photoUrl ?? '',
                 width: width,
                 height: 300,
