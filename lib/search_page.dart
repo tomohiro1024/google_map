@@ -40,8 +40,8 @@ class _MyWidgetState extends State<SearchPage> {
       Location(lat: currentLatitude, lng: currentLongitude),
       1500,
       language: 'ja',
-      type: "",
-      keyword: "",
+      type: "convenience_store",
+      keyword: "コンビニ",
       rankby: RankBy.Distance,
     );
 
