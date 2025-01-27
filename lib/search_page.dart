@@ -91,15 +91,6 @@ class _MyWidgetState extends State<SearchPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-    if (googleMap == null) {
-      return Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
     // if (isGoogleSearchResult == false) {
     //   // ダイアログ表示に変更
     //   return Scaffold(
@@ -110,49 +101,55 @@ class _MyWidgetState extends State<SearchPage> {
     // }
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('検索')),
+        title: Center(
+          child: Text('コンビニ検索'),
+        ),
         backgroundColor: Colors.blue,
       ),
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(height: height * 0.01),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: googleMap!.photoUrl != null
-                  ? Image.network(
-                      // googleMapのデータがnullの場合は何かしらの画像を表示
-                      googleMap!.photoUrl!,
-                      width: width,
-                      height: 300,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset(
-                      'assets/images/cat.png',
-                      width: width,
-                      height: 300,
-                      fit: BoxFit.cover,
+      body: googleMap != null
+          ? Center(
+              child: Column(
+                children: [
+                  SizedBox(height: height * 0.01),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: googleMap!.photoUrl != null
+                        ? Image.network(
+                            // googleMapのデータがnullの場合は何かしらの画像を表示
+                            googleMap!.photoUrl!,
+                            width: width * 0.95,
+                            height: 250,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            'assets/images/cat.png',
+                            width: width * 0.95,
+                            height: 250,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                  SizedBox(height: height * 0.03),
+                  Text(
+                    googleMap!.name ?? '',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
-            ),
-            SizedBox(height: height * 0.03),
-            Text(
-              googleMap!.name ?? '',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+                  ),
+                  SizedBox(height: height * 0.03),
+                  ElevatedButton(
+                    onPressed: () async {
+                      // GoogleMapアプリを開く
+                      await launchUrl(openGoogleMapUrl!);
+                    },
+                    child: Text('GoogleMapアプリで開く'),
+                  ),
+                ],
               ),
+            )
+          : Center(
+              child: CircularProgressIndicator(),
             ),
-            SizedBox(height: height * 0.03),
-            ElevatedButton(
-              onPressed: () async {
-                // GoogleMapアプリを開く
-                await launchUrl(openGoogleMapUrl!);
-              },
-              child: Text('GoogleMapアプリで開く'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
