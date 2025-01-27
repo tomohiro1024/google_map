@@ -20,6 +20,9 @@ class _MyWidgetState extends State<SearchPage> {
   GoogleMap? googleMap;
   Uri? openGoogleMapUrl;
   bool isGoogleSearchResult = false;
+  String? photoUrl;
+  double? doubleDistance;
+  int? distance;
 
   @override
   void initState() {
@@ -28,6 +31,7 @@ class _MyWidgetState extends State<SearchPage> {
   }
 
   Future searchPosition() async {
+    // 現在地の取得
     final currentPosition = await _determinePosition();
     final currentLatitude = currentPosition.latitude;
     final currentLongitude = currentPosition.longitude;
@@ -57,6 +61,7 @@ class _MyWidgetState extends State<SearchPage> {
     }
 
     final firstResult = result?.first;
+    // コンビニの目的地の取得
     final goalLocation = firstResult?.geometry?.location;
     final goalLatitude = goalLocation?.lat;
     final goalLongitude = goalLocation?.lng;
@@ -69,7 +74,18 @@ class _MyWidgetState extends State<SearchPage> {
 
     if (firstResult != null && mounted) {
       final photoReference = firstResult.photos?.first.photoReference;
-      String? photoUrl;
+
+      doubleDistance = Geolocator.distanceBetween(
+        currentLatitude,
+        currentLongitude,
+        goalLatitude!,
+        goalLongitude!,
+      );
+
+      distance = doubleDistance!.floor();
+
+      print('距離：$distance m');
+      
 
       if (photoReference != null) {
         photoUrl =
