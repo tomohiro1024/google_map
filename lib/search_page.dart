@@ -82,6 +82,8 @@ class _MyWidgetState extends State<SearchPage> {
         goalLongitude!,
       );
 
+
+      // 小数点切り捨て
       distance = doubleDistance!.floor();
 
       print('距離：$distance m');
@@ -92,7 +94,6 @@ class _MyWidgetState extends State<SearchPage> {
             'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey';
       }
 
-      // photoReferenceがnullの場合、空の画像を表示する処理を追加
       setState(() {
         googleMap = GoogleMap(
           firstResult.name,
