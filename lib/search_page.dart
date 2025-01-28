@@ -23,6 +23,7 @@ class _MyWidgetState extends State<SearchPage> {
   String? photoUrl;
   double? doubleDistance;
   int? distance;
+  String? walkingTime;
 
   @override
   void initState() {
@@ -74,6 +75,13 @@ class _MyWidgetState extends State<SearchPage> {
 
     if (firstResult != null && mounted) {
       final photoReference = firstResult.photos?.first.photoReference;
+      final rating = firstResult.rating;
+      final userRatingsTotal = firstResult.userRatingsTotal;
+      final isOpen = firstResult.openingHours?.openNow ?? false;
+
+      print('レビュー評価：$rating');
+      print('レビュー数：$userRatingsTotal');
+      print('営業中：$isOpen');
 
       doubleDistance = Geolocator.distanceBetween(
         currentLatitude,
@@ -86,7 +94,11 @@ class _MyWidgetState extends State<SearchPage> {
       // 小数点切り捨て
       distance = doubleDistance!.floor();
 
+      walkingTime = calculateWalkingTime(distance!);
+
       print('距離：$distance m');
+
+      print('徒歩時間：$walkingTime');
       
 
       if (photoReference != null) {
@@ -170,6 +182,14 @@ class _MyWidgetState extends State<SearchPage> {
     );
   }
 }
+
+String calculateWalkingTime(int distance) {
+    const walkingSpeed = 1.4; // 徒歩速度 (メートル/秒)
+    final timeInSeconds = distance / walkingSpeed; // 徒歩時間 (秒)
+    final timeInMinutes = timeInSeconds ~/ 60; // 分単位に変換 (切り捨て)
+    final remainingSeconds = timeInSeconds % 60; // 秒の残り
+    return '約$timeInMinutes分${remainingSeconds.toInt()}秒';
+  }
 
 Future<Position> _determinePosition() async {
   bool serviceEnabled;
