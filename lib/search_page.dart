@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map/google_map.dart';
@@ -52,6 +50,15 @@ class _MyWidgetState extends State<SearchPage> {
 
     final result = response?.results;
 
+    // if (result != null && result.isNotEmpty) {
+    //   print('検索結果（一覧）:');
+    //   for (var item in result) {
+    //     print('店名: ${item.name}, 評価: ${item.rating}');
+    //   }
+    // } else {
+    //   print('検索結果は見つかりませんでした。');
+    // }
+
     setState(() {
       isGoogleSearchResult = result?.isNotEmpty ?? false;
     });
@@ -90,7 +97,6 @@ class _MyWidgetState extends State<SearchPage> {
         goalLongitude!,
       );
 
-
       // 小数点切り捨て
       distance = doubleDistance!.floor();
 
@@ -99,7 +105,6 @@ class _MyWidgetState extends State<SearchPage> {
       print('距離：$distance m');
 
       print('徒歩時間：$walkingTime');
-      
 
       if (photoReference != null) {
         photoUrl =
@@ -184,12 +189,12 @@ class _MyWidgetState extends State<SearchPage> {
 }
 
 String calculateWalkingTime(int distance) {
-    const walkingSpeed = 1.4; // 徒歩速度 (メートル/秒)
-    final timeInSeconds = distance / walkingSpeed; // 徒歩時間 (秒)
-    final timeInMinutes = timeInSeconds ~/ 60; // 分単位に変換 (切り捨て)
-    final remainingSeconds = timeInSeconds % 60; // 秒の残り
-    return '約$timeInMinutes分${remainingSeconds.toInt()}秒';
-  }
+  const walkingSpeed = 1.4; // 徒歩速度 (メートル/秒)
+  final timeInSeconds = distance / walkingSpeed; // 徒歩時間 (秒)
+  final timeInMinutes = timeInSeconds ~/ 60; // 分単位に変換 (切り捨て)
+  final remainingSeconds = timeInSeconds % 60; // 秒の残り
+  return '約$timeInMinutes分${remainingSeconds.toInt()}秒';
+}
 
 Future<Position> _determinePosition() async {
   bool serviceEnabled;
