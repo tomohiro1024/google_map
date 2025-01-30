@@ -141,45 +141,60 @@ class _MyWidgetState extends State<SearchPage> {
         backgroundColor: Colors.blue,
       ),
       body: googleMap != null
-          ? Center(
-              child: Column(
-                children: [
-                  SizedBox(height: height * 0.01),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: googleMap!.photoUrl != null
-                        ? Image.network(
-                            // googleMapのデータがnullの場合は何かしらの画像を表示
-                            googleMap!.photoUrl!,
-                            width: width * 0.95,
-                            height: 250,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/images/cat.png',
-                            width: width * 0.95,
-                            height: 250,
-                            fit: BoxFit.cover,
-                          ),
+          ? Column(
+              children: [
+                SizedBox(height: height * 0.03),
+                Transform.translate(
+                  offset: Offset(width * -0.09, 0),
+                  child: Text('ここから一番近いコンビニは...'),
+                ),
+                SizedBox(height: height * 0.01),
+                Text(
+                  googleMap!.name ?? '',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
-                  SizedBox(height: height * 0.03),
-                  Text(
-                    googleMap!.name ?? '',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                ),
+                SizedBox(height: height * 0.02),
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 3,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: googleMap!.photoUrl != null
+                          ? Image.network(
+                              // googleMapのデータがnullの場合は何かしらの画像を表示
+                              googleMap!.photoUrl!,
+                              width: width * 0.95,
+                              height: 250,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              'assets/images/cat.png',
+                              width: width * 0.95,
+                              height: 250,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
-                  SizedBox(height: height * 0.03),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // GoogleMapアプリを開く
-                      await launchUrl(openGoogleMapUrl!);
-                    },
-                    child: Text('GoogleMapアプリで開く'),
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(height: height * 0.03),
+                SizedBox(height: height * 0.03),
+                ElevatedButton(
+                  onPressed: () async {
+                    // GoogleMapアプリを開く
+                    await launchUrl(openGoogleMapUrl!);
+                  },
+                  child: Text('GoogleMapアプリで開く'),
+                ),
+              ],
             )
           : Center(
               child: CircularProgressIndicator(),
