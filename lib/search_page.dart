@@ -112,11 +112,8 @@ class _MyWidgetState extends State<SearchPage> {
       }
 
       setState(() {
-        googleMap = GoogleMap(
-          firstResult.name,
-          photoUrl,
-          goalLocation,
-        );
+        googleMap = GoogleMap(firstResult.name, photoUrl, goalLocation, rating,
+            userRatingsTotal, isOpen, distance, walkingTime);
       });
     }
   }
