@@ -184,19 +184,67 @@ class _MyWidgetState extends State<SearchPage> {
                           ? Image.network(
                               googleMap!.photoUrl!,
                               width: width * 0.95,
-                              height: 250,
+                              height: 240,
                               fit: BoxFit.cover,
                             )
                           : Image.asset(
                               'assets/images/cat.png',
                               width: width * 0.95,
-                              height: 250,
+                              height: 240,
                               fit: BoxFit.cover,
                             ),
                     ),
                   ),
                 ),
                 SizedBox(height: height * 0.03),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.blue,
+                          width: 2.5,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      width: width * 0.35,
+                      height: 90,
+                      child: Column(
+                        children: [
+                          Text('レビュー評価'),
+                          SizedBox(height: 10),
+                          Text(
+                            googleMap!.rating.toString(),
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.blue,
+                          width: 2.5,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      width: width * 0.35,
+                      height: 100,
+                      child: Column(
+                        children: [
+                          Text('レビュー評価'),
+                          Text(
+                            googleMap!.rating.toString(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: height * 0.03),
                 ElevatedButton(
                   onPressed: () async {
