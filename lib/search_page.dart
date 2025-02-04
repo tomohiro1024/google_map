@@ -132,8 +132,23 @@ class _MyWidgetState extends State<SearchPage> {
     // }
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text('コンビニ検索'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Transform.translate(
+              offset: Offset(0, 2),
+              child: Icon(
+                Icons.store,
+                color: Colors.pink,
+              ),
+            ),
+            Text(
+              'コンビニ検索',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
         backgroundColor: Colors.blue,
       ),
@@ -159,7 +174,7 @@ class _MyWidgetState extends State<SearchPage> {
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.blue,
-                        width: 3,
+                        width: 2.5,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
