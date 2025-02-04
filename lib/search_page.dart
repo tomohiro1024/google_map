@@ -182,7 +182,6 @@ class _MyWidgetState extends State<SearchPage> {
                       borderRadius: BorderRadius.circular(20),
                       child: googleMap!.photoUrl != null
                           ? Image.network(
-                              // googleMapのデータがnullの場合は何かしらの画像を表示
                               googleMap!.photoUrl!,
                               width: width * 0.95,
                               height: 250,
