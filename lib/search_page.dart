@@ -234,12 +234,18 @@ class _MyWidgetState extends State<SearchPage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       width: width * 0.35,
-                      height: 100,
+                      height: 90,
                       child: Column(
                         children: [
-                          Text('レビュー評価'),
+                          SizedBox(height: 5),
+                          Text('徒歩時間'),
+                          SizedBox(height: 15),
                           Text(
-                            googleMap!.rating.toString(),
+                            googleMap!.walkingTime!,
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
