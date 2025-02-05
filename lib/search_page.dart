@@ -212,10 +212,11 @@ class _MyWidgetState extends State<SearchPage> {
                       height: 90,
                       child: Column(
                         children: [
-                          Text('レビュー評価'),
-                          SizedBox(height: 10),
+                          SizedBox(height: 5),
+                          Text('ここからの距離'),
+                          SizedBox(height: 9),
                           Text(
-                            googleMap!.rating.toString(),
+                            googleMap!.distance.toString() + 'm',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
