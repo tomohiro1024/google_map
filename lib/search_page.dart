@@ -4,6 +4,7 @@ import 'package:google_map/google_map.dart';
 import 'package:google_map/secret.dart';
 import 'package:google_place/google_place.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:spring_button/spring_button.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -96,15 +97,9 @@ class _MyWidgetState extends State<SearchPage> {
         goalLatitude!,
         goalLongitude!,
       );
-
       // 小数点切り捨て
       distance = doubleDistance!.floor();
-
       walkingTime = calculateWalkingTime(distance!);
-
-      print('距離：$distance m');
-
-      print('徒歩時間：$walkingTime');
 
       if (photoReference != null) {
         photoUrl =
@@ -153,54 +148,25 @@ class _MyWidgetState extends State<SearchPage> {
         backgroundColor: Colors.blue,
       ),
       body: googleMap != null
-          ? Column(
-              children: [
-                SizedBox(height: height * 0.03),
-                Transform.translate(
-                  offset: Offset(width * -0.09, 0),
-                  child: Text('ここから一番近いコンビニは...'),
-                ),
-                SizedBox(height: height * 0.01),
-                Text(
-                  googleMap!.name ?? '',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+          ? SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: height * 0.03),
+                  Transform.translate(
+                    offset: Offset(width * -0.09, 0),
+                    child: Text('ここから一番近いコンビニは...'),
                   ),
-                ),
-                SizedBox(height: height * 0.02),
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.blue,
-                        width: 2.5,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: googleMap!.photoUrl != null
-                          ? Image.network(
-                              googleMap!.photoUrl!,
-                              width: width * 0.95,
-                              height: 240,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              'assets/images/cat.png',
-                              width: width * 0.95,
-                              height: 240,
-                              fit: BoxFit.cover,
-                            ),
+                  SizedBox(height: height * 0.01),
+                  Text(
+                    googleMap!.name ?? '',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
-                ),
-                SizedBox(height: height * 0.03),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
+                  SizedBox(height: height * 0.02),
+                  Center(
+                    child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.blue,
@@ -208,59 +174,213 @@ class _MyWidgetState extends State<SearchPage> {
                         ),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      width: width * 0.35,
-                      height: 90,
-                      child: Column(
-                        children: [
-                          SizedBox(height: 5),
-                          Text('ここからの距離'),
-                          SizedBox(height: 9),
-                          Text(
-                            googleMap!.distance.toString() + 'm',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.blue,
-                          width: 2.5,
-                        ),
+                      child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
+                        child: googleMap!.photoUrl != null
+                            ? Image.network(
+                                googleMap!.photoUrl!,
+                                width: width * 0.95,
+                                height: 220,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/images/cat.png',
+                                width: width * 0.95,
+                                height: 220,
+                                fit: BoxFit.cover,
+                              ),
                       ),
-                      width: width * 0.35,
-                      height: 90,
-                      child: Column(
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  SizedBox(
+                    height: 60,
+                    width: width * 0.7,
+                    child: SpringButton(
+                      SpringButtonType.OnlyScale,
+                      Padding(
+                        padding: const EdgeInsets.all(10.5),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.cyan,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20.0),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.map,
+                                color: Colors.black,
+                              ),
+                              SizedBox(width: width * 0.02),
+                              const Center(
+                                child: Text(
+                                  'GoogleMapアプリで確認',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.5,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      onTapDown: (_) async {
+                        await launchUrl(openGoogleMapUrl!);
+                      },
+                      onLongPress: null,
+                      onLongPressEnd: null,
+                    ),
+                  ),
+                  SizedBox(height: height * 0.03),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(height: 5),
-                          Text('徒歩時間'),
-                          SizedBox(height: 15),
-                          Text(
-                            googleMap!.walkingTime!,
-                            style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 2.5,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            width: width * 0.35,
+                            height: 90,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 5),
+                                Text('ここからの距離'),
+                                SizedBox(height: 9),
+                                Text(
+                                  googleMap!.distance.toString() + 'm',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 2.5,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            width: width * 0.35,
+                            height: 90,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 5),
+                                Text('徒歩時間'),
+                                SizedBox(height: 15),
+                                Text(
+                                  googleMap!.walkingTime!,
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: height * 0.03),
-                ElevatedButton(
-                  onPressed: () async {
-                    // GoogleMapアプリを開く
-                    await launchUrl(openGoogleMapUrl!);
-                  },
-                  child: Text('GoogleMapアプリで開く'),
-                ),
-              ],
+                      SizedBox(height: height * 0.02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 2.5,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            width: width * 0.35,
+                            height: 90,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 5),
+                                Text('レビュー評価'),
+                                SizedBox(height: 9),
+                                Text(
+                                  googleMap!.rating.toString(),
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 2.5,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            width: width * 0.35,
+                            height: 90,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 5),
+                                Text('レビュー数'),
+                                SizedBox(height: 9),
+                                Text(
+                                  googleMap!.userRatingsTotal.toString(),
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: height * 0.02),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 2.5,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        width: width * 0.35,
+                        height: 90,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 5),
+                            Text('営業状況'),
+                            SizedBox(height: 13),
+                            Text(
+                              googleMap!.isOpen! ? '営業中' : '営業時間外',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height * 0.03),
+                ],
+              ),
             )
           : Center(
               child: CircularProgressIndicator(),
