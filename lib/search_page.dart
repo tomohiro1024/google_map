@@ -5,6 +5,7 @@ import 'package:google_map/secret.dart';
 import 'package:google_place/google_place.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:spring_button/spring_button.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -383,7 +384,17 @@ class _MyWidgetState extends State<SearchPage> {
               ),
             )
           : Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SpinKitFadingCube(
+                    color: Colors.blue,
+                    size: 30,
+                  ),
+                  SizedBox(height: 20),
+                  Text('検索中...'),
+                ],
+              ),
             ),
     );
   }
