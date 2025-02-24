@@ -46,8 +46,8 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>このアプリは位置情報を取得します</string>
+	<string>位置情報サービスをオンにすると、コンビニが近くにあるときに表示されます</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>このアプリは位置情報を取得します</string>
+	<string>位置情報サービスをオンにすると、コンビニが近くにあるときに表示されます</string>
 </dict>
 </plist>
